@@ -87,7 +87,6 @@ module.exports = msgHandler = async (client, message) => {
       },
     };
     const apiKey = '2API-KEY';
-    //const imdb = require('imdb-api')
     const randomanime = require('random-anime')
     const anime = randomanime.anime()
     const nsfwanime = randomanime.nsfw()
@@ -238,68 +237,36 @@ module.exports = msgHandler = async (client, message) => {
           return;
         }
         break;
-      case "!nh":
-        //if (isGroupMsg) return client.reply(chatId, 'Sorry this command for private chat only!', id)
-        if (args.length === 2) {
-          const nuklir = body.split(" ")[1];
-          client.reply(chatId, mess.wait, id);
-          const cek = await nhentai.exists(nuklir);
-          if (cek === true) {
-            try {
-              const api = new API();
-              const pic = await api.getBook(nuklir).then((book) => {
-                return api.getImageURL(book.cover);
-              });
-              const dojin = await nhentai.getDoujin(nuklir);
-              const { title, details, link } = dojin;
-              const {
-                parodies,
-                tags,
-                artists,
-                groups,
-                languages,
-                categories,
-              } = await details;
-              var teks = `*Title* : ${title}\n\n*Parodies* : ${parodies}\n\n*Tags* : ${tags.join(
-                ", "
-              )}\n\n*Artists* : ${artists.join(
-                ", "
-              )}\n\n*Groups* : ${groups.join(
-                ", "
-              )}\n\n*Languages* : ${languages.join(
-                ", "
-              )}\n\n*Categories* : ${categories}\n\n*Link* : ${link}`;
-              //exec('nhentai --id=' + nuklir + ` -P mantap.pdf -o ./hentong/${nuklir}.pdf --format `+ `${nuklir}.pdf`, (error, stdout, stderr) => {
-              client.sendFileFromUrl(chatId, pic, "hentod.jpg", teks, id);
-              //client.sendFile(chatId, `./hentong/${nuklir}.pdf/${nuklir}.pdf.pdf`, then(() => `${title}.pdf`, '', id)).catch(() =>
-              //client.sendFile(chatId, `./hentong/${nuklir}.pdf/${nuklir}.pdf.pdf`, `${title}.pdf`, '', id))
-              /*if (error) {
-                                console.log('error : '+ error.message)
-                                return
-                            }
-                            if (stderr) {
-                                console.log('stderr : '+ stderr)
-                                return
-                            }
-                            console.log('stdout : '+ stdout)*/
-              //})
-            } catch (err) {
-              client.reply(
-                chatId,
-                "[❗] Something went wrong, maybe the sauce is wrong",
-                id
-              );
-            }
+      
+        case '!nh':
+          //if (isGroupMsg) return client.reply(from, 'Sorry this command for private chat only!', id)
+          if (args.length === 2) {
+              const nuklir = body.split(' ')[1]
+              client.reply(chatId, mess.wait, id)
+              const cek = await nhentai.exists(nuklir)
+              if (cek === true)  {
+                  try {
+                      const api = new API()
+                      const pic = await api.getBook(nuklir).then(book => {
+                          return api.getImageURL(book.cover)
+                      })
+                      const dojin = await nhentai.getDoujin(nuklir)
+                      const { title, details, link } = dojin
+                      const { parodies, tags, artists, groups, languages, categories } = await details
+                      var teks = `*Title* : ${title}\n\n*Parodies* : ${parodies}\n\n*Tags* : ${tags.join(', ')}\n\n*Artists* : ${artists.join(', ')}\n\n*Groups* : ${groups.join(', ')}\n\n*Languages* : ${languages.join(', ')}\n\n*Categories* : ${categories}\n\n*Link* : ${link}`
+                      //exec('nhentai --id=' + nuklir + ` -P mantap.pdf -o ./hentong/${nuklir}.pdf --format `+ `${nuklir}.pdf`, (error, stdout, stderr) => {
+                      client.sendFileFromUrl(chatId, pic, 'hentod.jpg', teks, id)
+                  } catch (err) {
+                      client.reply(chatId, '[❗] Something went wrong, maybe the code is wrong', id)
+                  }
+              } else {
+                  client.reply(chatId, '[❗] Code Incorrect!')
+              }
           } else {
-            client.reply(chatId, "[❗] Wrong sauce!");
+              client.reply(chatId, '[ WRONG ] Send the command *!nh [code]* ')
           }
-        } else {
-          client.reply(
-            chatId,
-            "[ WRONG ] Send command *!nh [sauce]*, for detailed description of commands checkout *!readme*"
-          );
-        }
-        break;
+        break
+        
       case "!sauce":
         if (
           (isMedia && type === "image") ||
@@ -395,6 +362,7 @@ module.exports = msgHandler = async (client, message) => {
           );
         }
         break;
+
       case "!linkgroup":
         if (!isBotGroupAdmins)
           return client.reply(chatId, "Sorry, I am not an admin.", id);
@@ -448,53 +416,6 @@ module.exports = msgHandler = async (client, message) => {
         }
         break
 
-      // case "!kickallasbasfba":
-      //   if (!isGroupMsg) return client.reply(chatId, mess.error.Gp, id);
-      //   const isGroupOwner = sender.id === chat.groupMetadata.owner;
-      //   if (!isGroupOwner)
-      //     return client.reply(
-      //       chatId,
-      //       "Perintah ini hanya bisa di gunakan oleh Owner group",
-      //       id
-      //     );
-      //   if (!isBotGroupAdmins)
-      //     return client.reply(
-      //       chatId,
-      //       "Perintah ini hanya bisa di gunakan ketika bot menjadi admin",
-      //       id
-      //     );
-      //   const allMem = await client.getGroupMembers(groupId);
-      //   for (let i = 0; i < allMem.length; i++) {
-      //     if (groupAdmins.includes(allMem[i].id)) {
-      //       console.log("Upss this is Admin group");
-      //     } else {
-      //       await client.removeParticipant(groupId, allMem[i].id);
-      //     }
-      //   }
-      //   client.reply(chatId, "Succes kick all member", id);
-      //   break;
-      // // case "!leaveall":
-      //   if (!isOwner) return client.reply(chatId, mess.error.Ow, id);
-      //   const allChats = await client.getAllChatIds();
-      //   const allGroups = await client.getAllGroups();
-      //   for (let gclist of allGroups) {
-      //     await client.sendText(
-      //       gclist.contact.id,
-      //       `Maaf bot sedang pembersihan, total chat aktif : ${allChats.length}`
-      //     );
-      //     await client.leaveGroup(gclist.contact.id);
-      //   }
-      //   client.reply(chatId, "Succes leave all group!", id);
-      //   break;
-      // case "!clearall":
-      //   if (!isOwner)
-      //     return client.reply(chatId, "Perintah ini hanya untuk Owner bot", id);
-      //   const allChatz = await client.getAllChats();
-      //   for (let dchat of allChatz) {
-      //     await client.deleteChat(dchat.id);
-      //   }
-      //   client.reply(chatId, "Succes clear all chat!", id);
-      //   break;
       case "!add":
         const orang = args[1];
         if (!isGroupMsg) return client.reply(chatId, mess.error.Gp, id);
@@ -718,6 +639,82 @@ module.exports = msgHandler = async (client, message) => {
         break;
 
       //Trying random-anime
+      case "!aniran":
+        const arr = ["nsfwneko","neko","anime","hentai"];
+        const word = Math.ceil(Math.random()*100)%4;
+        const urlAniran = await axios.get(`https://api.computerfreaker.cf/v1/${arr[word]}`);
+
+
+        fetch(urlAniran)
+        .then((response) => response.json())
+        .then((jsonObj) => jsonObj.url)
+        .then((urlFinal) => {
+          client.sendFileFromUrl(chatId, `${urlFinal}`, "meme.jpg", `Random `, id);
+        });
+        //.then((urlFinal) => {
+          //console.log(urlFinal);
+          //client.sendFileFromUrl(chatId, `${urlFinal}`, "meme.jpg", `Random `, id);
+        //});
+        break;
+
+      case "!ytdl":
+        const fs = require('fs');
+        const ytdl = require('ytdl-core');
+
+        
+
+      case "!imdb":
+        const nameToImdb = require("name-to-imdb");
+        const imdb = require('imdb');
+        if (args.length == 1)
+          return client.reply(chatId, "Send command *!imdb [title]*", id);
+        const imdbsearch = body.slice(6);
+        let resp = "";
+        nameToImdb(imdbsearch, function(err, res, inf) { 
+          //console.log(res); // "tt0121955"
+          
+          imdb(res, function(err, data) {
+            if(err)
+              return client.reply(chatId, err.stack, id);
+           
+            if(data)
+              var outdata = ` *Title:* ${data.title}\n *Year:* ${data.year}\n *Runtime:* ${data.runtime}\n *Description:* ${data.description}\n *Rating:* ${data.rating}\n *Genre:* ${data.genre.join(",")}\n`;
+
+              return client.sendFileFromUrl(chatId, `${data.poster}`, "imdb.jpg", `${outdata}`, id)
+
+          });
+        })
+
+        //console.log(resp);
+        break;
+      
+      case "!urban":
+        if (args.length == 1)
+          return client.reply(chatId, "Send command *!urban [word]*", id);
+        const urbu = body.slice(7);
+        const ud = require('urban-dictionary');
+
+        // Callback
+        ud.define(urbu, (error, results) => {
+          if (error) {
+            client.reply(chatId,`define (callback) error - ${error.message}`, id)
+            return
+          }
+
+          console.log('define (callback)')
+
+          let objk = 1;
+          Object.entries(results[0]).forEach(([key, prop]) => {
+            if (objk===1){
+              const tell = `${key}: ${prop}`;
+              client.reply(chatId, tell, id);
+            }
+            objk += 1;            
+          })
+        })
+
+        break
+
       case "!anime":
         const urlAnime = anime;
         client.sendFileFromUrl(chatId, `${urlAnime}`, "meme.jpg", `Random Animeme`, id);
