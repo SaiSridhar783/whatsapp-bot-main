@@ -657,11 +657,179 @@ module.exports = msgHandler = async (client, message) => {
         //});
         break;
 
-      case "!ytdl":
-        const fs = require('fs');
-        const ytdl = require('ytdl-core');
+      case "!mal":
+        /* 
+        {
+  title: 'Bleach',
+  synopsis: "Ichigo Kurosaki is an ordinary high schooler—until his family is attacked by a Hollow, a corrupt spirit that seeks to devour human souls. It is then that he meets a Soul Reaper named Rukia Kuchiki, who gets injured while protecting Ichigo's family from the assailant. To save his family, Ichigo accepts Rukia's offer of taking her powers and becomes a Soul Reaper as a result.\n" +
+    '\n' +
+    'However, as Rukia is unable to regain her powers, Ichigo is given the daunting task of hunting down the Hollows that plague their town. However, he is not alone in his fight, as he is later joined by his friends—classmates Orihime Inoue, Yasutora Sado, and Uryuu Ishida—who each have their own unique abilities. As Ichigo and his comrades get used to their new duties and support each other on and off the battlefield, the young Soul Reaper soon learns that the Hollows are not the only real threat to the human world.\n' +
+    '\n' +
+    '[Written by MAL Rewrite]',
+  picture: 'https://cdn.myanimelist.net/images/anime/3/40451.jpg',
+  characters: [
+    {
+      link: 'https://myanimelist.net/character/5/Ichigo_Kurosaki',
+      picture: 'https://cdn.myanimelist.net/images/characters/3/89190.jpg',
+      name: 'Kurosaki, Ichigo',
+      role: 'Main',
+      seiyuu: [Object]
+    },
+    {
+      link: 'https://myanimelist.net/character/6/Rukia_Kuchiki',
+      picture: 'https://cdn.myanimelist.net/images/characters/2/78215.jpg',
+      name: 'Kuchiki, Rukia',
+      role: 'Main',
+      seiyuu: [Object]
+    },
+    {
+      link: 'https://myanimelist.net/character/906/Renji_Abarai',
+      picture: 'https://cdn.myanimelist.net/images/characters/10/171877.jpg',
+      name: 'Abarai, Renji',
+      role: 'Main',
+      seiyuu: [Object]
+    },
+    {
+      link: 'https://myanimelist.net/character/7/Orihime_Inoue',
+      picture: 'https://cdn.myanimelist.net/images/characters/12/97695.jpg',
+      name: 'Inoue, Orihime',
+      role: 'Main',
+      seiyuu: [Object]
+    },
+    {
+      link: 'https://myanimelist.net/character/564/Uryuu_Ishida',
+      picture: 'https://cdn.myanimelist.net/images/characters/16/139189.jpg',
+      name: 'Ishida, Uryuu',
+      role: 'Main',
+      seiyuu: [Object]
+    },
+    {
+      link: 'https://myanimelist.net/character/575/Yasutora_Sado',
+      picture: 'https://cdn.myanimelist.net/images/characters/2/102739.jpg',
+      name: 'Sado, Yasutora',
+      role: 'Main',
+      seiyuu: [Object]
+    },
+    {
+      link: 'https://myanimelist.net/character/909/Kenpachi_Zaraki',
+      picture: 'https://cdn.myanimelist.net/images/characters/8/150265.jpg',
+      name: 'Zaraki, Kenpachi',
+      role: 'Supporting',
+      seiyuu: [Object]
+    },
+    {
+      link: 'https://myanimelist.net/character/245/Toushirou_Hitsugaya',
+      picture: 'https://cdn.myanimelist.net/images/characters/11/36579.jpg',
+      name: 'Hitsugaya, Toushirou',
+      role: 'Supporting',
+      seiyuu: [Object]
+    },
+    {
+      link: 'https://myanimelist.net/character/1081/Ulquiorra_Cifer',
+      picture: 'https://cdn.myanimelist.net/images/characters/12/85334.jpg',
+      name: 'Cifer, Ulquiorra',
+      role: 'Supporting',
+      seiyuu: [Object]
+    },
+    {
+      link: 'https://myanimelist.net/character/210/Kisuke_Urahara',
+      picture: 'https://cdn.myanimelist.net/images/characters/15/149491.jpg',
+      name: 'Urahara, Kisuke',
+      role: 'Supporting',
+      seiyuu: [Object]
+    }
+  ],
+  staff: [
+    {
+      link: 'https://myanimelist.net/people/10277/Noriyuki_Abe',
+      picture: 'https://cdn.myanimelist.net/images/voiceactors/2/54038.jpg',
+      name: 'Abe, Noriyuki',
+      role: 'Director, Episode Director, Storyboard'
+    },
+    {
+      link: 'https://myanimelist.net/people/18371/Yuzuru_Tachikawa',
+      picture: 'https://cdn.myanimelist.net/images/voiceactors/2/25109.jpg',
+      name: 'Tachikawa, Yuzuru',
+      role: 'Episode Director, Storyboard, Key Animation'
+    },
+    {
+      link: 'https://myanimelist.net/people/10936/Masashi_Ishihama',
+      picture: 'https://cdn.myanimelist.net/images/voiceactors/3/42584.jpg',
+      name: 'Ishihama, Masashi',
+      role: 'Episode Director, Storyboard, Key Animation, Animation Director'
+    },
+    {
+      link: 'https://myanimelist.net/people/6831/Chiaki_Kon',
+      picture: 'https://cdn.myanimelist.net/images/voiceactors/1/43174.jpg',
+      name: 'Kon, Chiaki',
+      role: 'Episode Director, Storyboard'
+    }
+  ],
+  trailer: 'https://www.youtube.com/embed/0yk5H6vvfG4?enablejsapi=1&wmode=opaque&autoplay=1',
+  englishTitle: 'Bleach',
+  japaneseTitle: 'BLEACH - ブリーチ -',
+  synonyms: [ '' ],
+  type: 'TV',
+  episodes: '366',
+  aired: 'Oct 5, 2004 to Mar 27, 2012',
+  premiered: 'Fall 2004',
+  broadcast: 'Tuesdays at 18:00 (JST)',
+  producers: [
+    'TV Tokyo',
+    'Aniplex',
+    'Dentsu',
+    'TV Tokyo Music',
+    'Studio Kelmadick',
+    'Shueisha'
+  ],
+  studios: [ 'Studio Pierrot' ],
+  source: 'Manga',
+  duration: '24 min. per ep.',
+  rating: 'PG-13 - Teens 13 or older',
+  status: 'Finished Airing',
+  genres: [
+    'Action',
+    'Adventure',
+    'Comedy',
+    'Super Power',
+    'Supernatural',
+    'Shounen'
+  ],
+  score: '7.80',
+  scoreStats: 'scored by 656,985 users',
+  ranked: '#820',
+  popularity: '#33',
+  members: '1,309,131',
+  favorites: '55,212',
+  id: 269,
+  url: 'https://myanimelist.net/anime/269/Bleach'
+}
+        */
+        const malScraper = require('mal-scraper');
+        if (args.length == 1)
+          return client.reply(chatId, "Send command *!mal [anime]*", id);
 
-        
+        const anisearch = body.slice(5);
+
+        /* malScraper.getInfoFromName(anisearch)
+        .then((data) => console.log(data))
+        .catch((err) => client.reply(chatId, err, id)); */
+
+
+        const search = malScraper.search;
+
+        const type = 'manga';
+
+        // Helpers for types, genres and list you might need for your research
+        //console.log(search.helpers)
+
+        search.search(type, {
+          term: anisearch,
+          maxResults: 3
+        })
+        .then(console.log);
+
+        break
 
       case "!imdb":
         const nameToImdb = require("name-to-imdb");
@@ -669,7 +837,6 @@ module.exports = msgHandler = async (client, message) => {
         if (args.length == 1)
           return client.reply(chatId, "Send command *!imdb [title]*", id);
         const imdbsearch = body.slice(6);
-        let resp = "";
         nameToImdb(imdbsearch, function(err, res, inf) { 
           //console.log(res); // "tt0121955"
           
