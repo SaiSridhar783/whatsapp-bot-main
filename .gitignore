@@ -4,6 +4,7 @@ node_modules
 
 # Ignore Session data
 *.data.json
+*.yaml
 logs/BarBar
 
 # Ignore config.json

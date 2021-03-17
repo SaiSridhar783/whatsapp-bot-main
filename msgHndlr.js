@@ -218,7 +218,7 @@ module.exports = msgHandler = async (client, message) => {
         if (args.length === 1)
           return client.reply(
             chatId,
-            "Syntax *!tts [en, hi, jp,..] [text]*, contoh *!tts en Hello*\nwhere en=english, hi=hindi, jp=japanese, etc."
+            "Syntax *!tts [en, hi, jp,..] [text]*, try *!tts en Hello*\nwhere en=english, hi=hindi, jp=japanese, etc."
           );
         const tts = require("node-gtts");
         const dataText = body.slice(8);
@@ -238,33 +238,33 @@ module.exports = msgHandler = async (client, message) => {
         }
         break;
       
-        case '!nh':
-          //if (isGroupMsg) return client.reply(from, 'Sorry this command for private chat only!', id)
-          if (args.length === 2) {
-              const nuklir = body.split(' ')[1]
-              client.reply(chatId, mess.wait, id)
-              const cek = await nhentai.exists(nuklir)
-              if (cek === true)  {
-                  try {
-                      const api = new API()
-                      const pic = await api.getBook(nuklir).then(book => {
-                          return api.getImageURL(book.cover)
-                      })
-                      const dojin = await nhentai.getDoujin(nuklir)
-                      const { title, details, link } = dojin
-                      const { parodies, tags, artists, groups, languages, categories } = await details
-                      var teks = `*Title* : ${title}\n\n*Parodies* : ${parodies}\n\n*Tags* : ${tags.join(', ')}\n\n*Artists* : ${artists.join(', ')}\n\n*Groups* : ${groups.join(', ')}\n\n*Languages* : ${languages.join(', ')}\n\n*Categories* : ${categories}\n\n*Link* : ${link}`
-                      //exec('nhentai --id=' + nuklir + ` -P mantap.pdf -o ./hentong/${nuklir}.pdf --format `+ `${nuklir}.pdf`, (error, stdout, stderr) => {
-                      client.sendFileFromUrl(chatId, pic, 'hentod.jpg', teks, id)
-                  } catch (err) {
-                      client.reply(chatId, '[❗] Something went wrong, maybe the code is wrong', id)
-                  }
-              } else {
-                  client.reply(chatId, '[❗] Code Incorrect!')
-              }
-          } else {
-              client.reply(chatId, '[ WRONG ] Send the command *!nh [code]* ')
-          }
+      case '!nh':
+        //if (isGroupMsg) return client.reply(from, 'Sorry this command for private chat only!', id)
+        if (args.length === 2) {
+            const nuklir = body.split(' ')[1]
+            client.reply(chatId, mess.wait, id)
+            const cek = await nhentai.exists(nuklir)
+            if (cek === true)  {
+                try {
+                    const api = new API()
+                    const pic = await api.getBook(nuklir).then(book => {
+                        return api.getImageURL(book.cover)
+                    })
+                    const dojin = await nhentai.getDoujin(nuklir)
+                    const { title, details, link } = dojin
+                    const { parodies, tags, artists, groups, languages, categories } = await details
+                    var teks = `*Title* : ${title}\n\n*Parodies* : ${parodies}\n\n*Tags* : ${tags.join(', ')}\n\n*Artists* : ${artists.join(', ')}\n\n*Groups* : ${groups.join(', ')}\n\n*Languages* : ${languages.join(', ')}\n\n*Categories* : ${categories}\n\n*Link* : ${link}`
+                    //exec('nhentai --id=' + nuklir + ` -P mantap.pdf -o ./hentong/${nuklir}.pdf --format `+ `${nuklir}.pdf`, (error, stdout, stderr) => {
+                    client.sendFileFromUrl(chatId, pic, 'hentod.jpg', teks, id)
+                } catch (err) {
+                    client.reply(chatId, '[❗] Something went wrong, maybe the code is wrong', id)
+                }
+            } else {
+                client.reply(chatId, '[❗] Code Incorrect!')
+            }
+        } else {
+            client.reply(chatId, '[ WRONG ] Send the command *!nh [code]* ')
+        }
         break
         
       case "!sauce":
@@ -334,7 +334,7 @@ module.exports = msgHandler = async (client, message) => {
             chatId,
             "./media/img/tutod.jpg",
             "Tutor.jpg",
-            "Neh contoh mhank!",
+            "Not found!!!",
             id
           );
         }
@@ -408,8 +408,8 @@ module.exports = msgHandler = async (client, message) => {
         if (args.length === 1) return client.reply(chatId, 'Use like this *!wiki [query]*\n', id)
         const query_ = body.slice(6)
         const wiki = await get.get(`https://apis.ccbp.in/wiki-search?search=${query_}`).json()
-        if (wiki.error) {
-            client.reply(chatId, wiki.error, id)
+        if (wiki.search_results.length <= 1) {
+            return client.reply(chatId, "*[Error] [❗]* Please try better keywords", id)
         } else {
             client.reply(chatId, `➸ *Query* : ${query_}\n\n➸ *Result* : ${wiki.search_results[0].description}`, id)
             client.reply(chatId, `➸ *Query* : ${query_}\n\n➸ *Result* : ${wiki.search_results[1].description}`, id)
@@ -461,9 +461,7 @@ module.exports = msgHandler = async (client, message) => {
         const lirik = await liriklagu(lagu);
         client.reply(chatId, lirik, id);
         break;
-      case "!listchannel":
-        client.reply(chatId, listChannel, id);
-        break;
+      
       case "!husbu":
         const diti = fs.readFileSync("./lib/husbu.json");
         const ditiJsin = JSON.parse(diti);
@@ -477,15 +475,6 @@ module.exports = msgHandler = async (client, message) => {
           id
         );
         break;
-      // case "!randomnsfwneko":
-      //   if (isGroupMsg) {
-      //     if (!isNsfw)
-      //       return client.reply(
-      //         chatId,
-      //         "Command/Perintah NSFW belum di aktifkan di group ini!",
-      //         id
-      //       );
-
 
       case "!inu":
         const list = [
@@ -593,6 +582,7 @@ module.exports = msgHandler = async (client, message) => {
         let kya = list[Math.floor(Math.random() * list.length)];
         client.sendFileFromUrl(chatId, kya, "Dog.jpeg", "Inu");
         break;
+
       case "!neko":
         q2 = Math.floor(Math.random() * 900) + 300;
         q3 = Math.floor(Math.random() * 900) + 300;
@@ -603,10 +593,13 @@ module.exports = msgHandler = async (client, message) => {
           "Neko "
         );
         break;
+
+      case "!r":
       case "!meme":
       case "!wholesome":
       case "!dank":
       case "!waifu":
+      case "!ecchi":
       case "!nsfwgirl":
       case "!nsfw":
         let subr = "";
@@ -614,6 +607,15 @@ module.exports = msgHandler = async (client, message) => {
         else if (command == "!wholesome") subr = "wholesomememes";
         else if (command == "!dank") subr = "IndianDankMemes";
         else if (command == "!waifu") subr = "awwnime";
+        else if (command == "!ecchi") subr = "ecchi";
+        else if (command == "!r") {
+          const como = body.slice(3)
+          if (como.length < 2){
+            return client.reply(chatId, "Enter valid sub", id);
+          }
+          subr = como;
+          console.log(como);
+        }
         else if (command == "!nsfw") {
           if (!isNsfw && isGroupMsg)
             return client.reply(chatId, "NSFW not enabled in this group", id);
@@ -642,15 +644,15 @@ module.exports = msgHandler = async (client, message) => {
       case "!aniran":
         const arr = ["nsfwneko","neko","anime","hentai"];
         const word = Math.ceil(Math.random()*100)%4;
-        const urlAniran = await axios.get(`https://api.computerfreaker.cf/v1/${arr[word]}`);
+        const urlAniran = `https://api.computerfreaker.cf/v1/${arr[word]}`;
 
-
-        fetch(urlAniran)
+        axios.get(urlAniran)
         .then((response) => response.json())
         .then((jsonObj) => jsonObj.url)
         .then((urlFinal) => {
-          client.sendFileFromUrl(chatId, `${urlFinal}`, "meme.jpg", `Random `, id);
-        });
+          client.sendFileFromUrl(chatId, `${urlFinal}`, "meme.jpg", `Truly Random `, id);
+        })
+        .catch((err) => client.reply(chatId, err, id));
         //.then((urlFinal) => {
           //console.log(urlFinal);
           //client.sendFileFromUrl(chatId, `${urlFinal}`, "meme.jpg", `Random `, id);
@@ -811,12 +813,15 @@ module.exports = msgHandler = async (client, message) => {
 
         const anisearch = body.slice(5);
 
-        /* malScraper.getInfoFromName(anisearch)
-        .then((data) => console.log(data))
-        .catch((err) => client.reply(chatId, err, id)); */
+        malScraper.getInfoFromName(anisearch)
+        .then((data) => {
+          client.reply(chatId, JSON.stringify(data), id)
+          //console.log(typeof(data.synopsis))
+        })
+        .catch((err) => client.reply(chatId, err, id));
 
 
-        const search = malScraper.search;
+        /* const search = malScraper.search;
 
         const type = 'manga';
 
@@ -827,7 +832,8 @@ module.exports = msgHandler = async (client, message) => {
           term: anisearch,
           maxResults: 3
         })
-        .then(console.log);
+        .then((response) => client.reply(chatId, response, id))
+        .catch((error) => client.reply(chatId, error, id)); */
 
         break
 
@@ -864,15 +870,13 @@ module.exports = msgHandler = async (client, message) => {
         // Callback
         ud.define(urbu, (error, results) => {
           if (error) {
-            client.reply(chatId,`define (callback) error - ${error.message}`, id)
+            client.reply(chatId,`[❗] Error - ${error.message}`, id)
             return
           }
 
-          console.log('define (callback)')
-
           let objk = 1;
           Object.entries(results[0]).forEach(([key, prop]) => {
-            if (objk===1){
+            if (objk===1 || objk===10){
               const tell = `${key}: ${prop}`;
               client.reply(chatId, tell, id);
             }
@@ -884,12 +888,12 @@ module.exports = msgHandler = async (client, message) => {
 
       case "!anime":
         const urlAnime = anime;
-        client.sendFileFromUrl(chatId, `${urlAnime}`, "meme.jpg", `Random Animeme`, id);
+        client.sendFileFromUrl(chatId, `${urlAnime}`, "meme.jpg", `Kawaii`, id);
         break;
       
       case "!nsfwanime":
         const urlAnimen = nsfwanime;
-        client.sendFileFromUrl(chatId, `${urlAnimen}`, "meme.jpg", `Random NSFW Animeme`, id);
+        client.sendFileFromUrl(chatId, `${urlAnimen}`, "meme.jpg", `NSFW Animeme`, id);
         break;
 
       case "!togglensfw":
@@ -918,7 +922,7 @@ module.exports = msgHandler = async (client, message) => {
       case "!info":
         client.sendLinkWithAutoPreview(
           chatId,
-          "https://github.com/SaiSridhar783/whatsapp-bot",
+          "https://github.com/SaiSridhar783/whatsapp-bot-main",
           info
         );
         break;

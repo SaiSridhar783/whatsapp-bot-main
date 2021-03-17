@@ -1,6 +1,7 @@
 {
-	"ownerName": "Aditya Agrawal",
+	"ownerName": "Akula Sai Sridhar",
 	"removeBgAPIKey": "",
 	"enableInGroups": false,
-	"allowDelete": false
+	"allowDelete": false,
+	"sessionData": "./session.data.json"
 }
