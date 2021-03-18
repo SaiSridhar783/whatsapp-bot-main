@@ -14,7 +14,7 @@ const {
   randomNimek,
   fb,
   sleep,
-  jadwalTv,
+  jadwalTv,   
   ss,
 } = require("./lib/functions");
 const { help, snk, info, donate, readme, listChannel } = require("./lib/help");
@@ -282,6 +282,9 @@ module.exports = msgHandler = async (client, message) => {
             "base64"
           )}`;
           client.reply(chatId, "Searching....", id);
+          console.log(mediaData);
+
+
           fetch("https://trace.moe/api/search", {
             method: "POST",
             body: JSON.stringify({ image: imgBS4 }),
@@ -338,6 +341,83 @@ module.exports = msgHandler = async (client, message) => {
             id
           );
         }
+        break;
+
+      case "!saucenao":
+        /* if (
+            (isMedia && type === "image") ||
+            (quotedMsg && (quotedMsg.type === "image" || quotedMsgObj.mimetype === "image/gif"))
+        ) { */
+          if (isMedia) {
+            var mediaData = await decryptMedia(message, uaOverride);
+          } else {
+            var mediaData = await decryptMedia(quotedMsg, uaOverride);
+          }
+
+          const imgBS4 = `data:${mimetype};base64,${mediaData.toString(
+            "base64"
+          )}`;
+
+        const SauceNAO = require('saucenao');
+        let mySauce = new SauceNAO('0cd9285c8d3eef58611adf19baa3e6acdccda450');
+        
+        let arrSauce = [];
+        
+        mySauce(mediaData).then((response) => {
+            console.log('Request successful')
+            const fetchedResults = response.json.results;
+        
+            for (let item of fetchedResults){
+            if(item.data.source){
+                arrSauce.push(`${item.data.source} - ${item.header.similarity}%`)
+                check = 1;
+                }
+            }
+            
+            if (arrSauce){
+              client.reply(chatId, arrSauce.join("\n"), id);
+            }
+            else{
+              client.reply(chatId, "*[Error]* Not Found!!", `${Math.random()} 69`);
+            }
+            
+        
+        }, (error) => {
+            console.error('Request encountered an error')
+            console.dir(error.request)
+        })
+
+        break;
+
+      case "!revimage":
+        if (
+          (isMedia && type === "image") ||
+          (quotedMsg && quotedMsg.type === "image")
+        ) {
+          if (isMedia) {
+            var mediaData = await decryptMedia(message, uaOverride);
+          } else {
+            var mediaData = await decryptMedia(quotedMsg, uaOverride);
+          }
+          const fetch = require("node-fetch");
+          const imgBS4 = `data:${mimetype};base64,${mediaData.toString(
+            "base64"
+          )}`;
+        } //client.reply(chatId, "Searching....", id);
+          //console.log(mediaData);
+
+        const reverseImageSearch = require('reverse-image-search-google');
+
+        const doSomething = (results) => {
+          console.log(results);
+          client.reply(chatId, JSON.stringify(results), id);
+        }
+
+        fs.writeFile(`./media/img/image.jpg`, mediaData, () => 
+          console.log('finished downloading!'));
+
+        reverseImageSearch(mediaData, doSomething);
+
         break;
 
       case "!quotemaker":
@@ -646,13 +726,15 @@ module.exports = msgHandler = async (client, message) => {
         const word = Math.ceil(Math.random()*100)%4;
         const urlAniran = `https://api.computerfreaker.cf/v1/${arr[word]}`;
 
-        axios.get(urlAniran)
-        .then((response) => response.json())
+        fetch(urlAniran)
+        .then((response) => console.log(response.json()))
+        .then((jsonObj) => console.log(jsonObj));
+        /* .then((response) => response.json())
         .then((jsonObj) => jsonObj.url)
         .then((urlFinal) => {
           client.sendFileFromUrl(chatId, `${urlFinal}`, "meme.jpg", `Truly Random `, id);
-        })
-        .catch((err) => client.reply(chatId, err, id));
+        }) */
+        //.catch((err) => client.reply(chatId, err, id));
         //.then((urlFinal) => {
           //console.log(urlFinal);
           //client.sendFileFromUrl(chatId, `${urlFinal}`, "meme.jpg", `Random `, id);
