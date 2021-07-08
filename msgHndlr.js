@@ -86,7 +86,6 @@ module.exports = msgHandler = async (client, message) => {
         admin: "[❗] This command can be used by group admins only!",
       },
     };
-    const apiKey = '2API-KEY';
     const randomanime = require('random-anime')
     const anime = randomanime.anime()
     const nsfwanime = randomanime.nsfw()
@@ -145,7 +144,7 @@ module.exports = msgHandler = async (client, message) => {
       case "!sticker":
       case "!stiker":
       case "!st":
-        let metadata = { author: "", pack: "" };
+        let metadata = { author: "Nagachika", pack: "Chimichangas" };
         if (args.includes("wname") || args.includes("withname")) {
           metadata.author = pushname;
           metadata.pack = pushname;
@@ -172,6 +171,8 @@ module.exports = msgHandler = async (client, message) => {
             });
             imageBase64 = `data:image/png;base64,${result.base64img}`;
           }
+		  console.log(mediaData)
+          client.reply(chatId, "Aankh band karke 10 tak gino :3", id);
           await client.sendImageAsSticker(chatId, imageBase64, metadata);
         } else if (
           (isMedia && (mimetype === "video/mp4" || mimetype === "image/gif")) ||
@@ -213,6 +214,136 @@ module.exports = msgHandler = async (client, message) => {
           client.reply(chatId, mess.error.St, id);
         }
         break;
+
+      case "!gif":
+        /* if (
+          (isMedia && type === "video") || (isMedia && type === "image/gif") ||
+          (quotedMsg && quotedMsg.type === "video")
+        ) {
+          if (isMedia) {
+            var mediaData = await decryptMedia(message, uaOverride);
+          } else {
+            var mediaData = await decryptMedia(quotedMsg, uaOverride);
+          }
+          const fetch = require("node-fetch");
+          const imgBS4 = `data:${mimetype};base64,${mediaData.toString(
+            "base64"
+          )}`;
+        
+        fs.writeFile(`./media/video/giphy.mp4`, mediaData, () => 
+          console.log('finished downloading!'));
+
+        axios.post("https://api.unscreen.com/v1.0/videos", {
+          "video_file": './media/video/giphy.mp4'
+        }, {
+          headers: {
+            "X-Api-Key": config.unscreenBgAPIKey,
+            "Content-Type": 'multipart/form-data',
+            Accept: 'application/*'
+          }
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      } */
+        const request = require('request');
+        console.log("Started")
+
+        if (
+          (isMedia && type === "video") || (isMedia && type === "image/gif") ||
+          (quotedMsg && quotedMsg.type === "video")
+        ) {
+          console.log("Media")
+          if (quotedMsg) {
+              console.log("Possible")
+              if (isMedia) {
+                var mediaData = await decryptMedia(message, uaOverride);
+              } else {
+                var mediaData = await decryptMedia(quotedMsg, uaOverride);
+              }
+              client.reply(chatId, "Processing...", id)
+              const filename = `./media/video/gifnobg.mp4`
+              //await fs.writeFileSync(filename, mediaData)
+              fs.writeFile(filename, mediaData, () => 
+                console.log('finished downloading!'));
+              
+              axios.post('https://api.unscreen.com/v1.0/videos', {
+                formData: {
+                  video_file: fs.createReadStream(filename),
+                  format: 'mp4',
+                }
+              }, {
+                headers: {
+                  'X-Api-Key': config.unscreenBgAPIKey
+                }
+              })
+              .then((response) => {
+                console.log(response)
+              })
+              /* request.post({
+                url: 'https://api.unscreen.com/v1.0/videos',
+                formData: {
+                  video_file: fs.createReadStream(filename),
+                  format: 'gif',
+                    },
+                headers: {
+                      'X-Api-Key': config.unscreenBgAPIKey
+                  },
+
+                }, function(error, response, body) {
+                    if(error) return console.error('Request failed:', error);
+                    if(response.statusCode != 200) return console.error('Error:', response.statusCode, body.toString('utf8'));
+                      const resultScreen = JSON.parse(body)
+
+                    const VIDEO_ID = resultScreen.data.id
+                    console.log(VIDEO_ID)
+                    // get video
+                    const vurl = `https://api.unscreen.com/v1.0/videos/${VIDEO_ID}`
+                    function poll(vurl) {
+                    axios({
+                      method: 'get',
+                      url: vurl,
+                      headers: { 'X-Api-Key': config.unscreenBgAPIKey },
+                      })
+                      .then(function (response) {
+                      // handle success
+                      console.log(response.data);
+
+                    if (response.data.data.attributes.status != 'done') {
+                        // poll again
+                        setTimeout(function () { poll(vurl); }, 3000);
+                    } else {
+                        // video processing is finished
+                        
+                        console.log(response.data.data.attributes.result_url)
+                        client.sendStickerfromUrl(chatId, response.data.data.attributes.result_url, { method: 'get' })
+                    }
+                    })
+                    .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                    res.send(error);
+                    });
+                    }
+                    poll(vurl); 
+                    
+                  });
+                    */ 
+                      
+          } else (
+              client.reply(chatId, '[❗] *!gif* máximum 15 seconds!', id)
+          )
+        }
+
+        else{
+          client.reply(chatId, "Need a GIF Nigga!")
+        }
+
+        break;
+
       case "!texttospeech":
       case "!tts":
         if (args.length === 1)
@@ -502,7 +633,7 @@ module.exports = msgHandler = async (client, message) => {
         if (args.length === 1)
           return client.reply(
             chatId,
-            "To use this feature, send command *!add* 628xxxxx",
+            "To use this feature, send command *!add* 9185xxxxxxxx",
             id
           );
         if (!isGroupAdmins) return client.reply(chatId, mess.error.admin, id);
@@ -519,7 +650,6 @@ module.exports = msgHandler = async (client, message) => {
       case "!delete":
         if (!config.allowDelete) return;
         if (!isGroupMsg) return client.reply(chatId, mess.error.Gp, id);
-        if (!isGroupAdmins) return client.reply(chatId, mess.error.admin, id);
         if (!quotedMsg)
           return client.reply(
             chatId,
@@ -726,9 +856,10 @@ module.exports = msgHandler = async (client, message) => {
         const word = Math.ceil(Math.random()*100)%4;
         const urlAniran = `https://api.computerfreaker.cf/v1/${arr[word]}`;
 
-        fetch(urlAniran)
-        .then((response) => console.log(response.json()))
-        .then((jsonObj) => console.log(jsonObj));
+        axios.get(urlAniran)
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
+        //.then((jsonObj) => console.log(jsonObj));
         /* .then((response) => response.json())
         .then((jsonObj) => jsonObj.url)
         .then((urlFinal) => {
@@ -974,6 +1105,9 @@ module.exports = msgHandler = async (client, message) => {
         break;
       
       case "!nsfwanime":
+        if (!isNsfw && isGroupMsg)
+            return client.reply(chatId, "NSFW not enabled in this group", id);
+        
         const urlAnimen = nsfwanime;
         client.sendFileFromUrl(chatId, `${urlAnimen}`, "meme.jpg", `NSFW Animeme`, id);
         break;

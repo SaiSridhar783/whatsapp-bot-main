@@ -1,7 +1,8 @@
 {
 	"ownerName": "Akula Sai Sridhar",
-	"removeBgAPIKey": "",
+	"removeBgAPIKey": "oeVxMvfPwxynkFhqUVb2n5kt",
+	"unscreenBgAPIKey": "HyuiFEYxYSeU7CJCANuWh8sp",
+	"removeBgAPIKey1": "of7gWDihAmrXRmnUmqAvQdAk",
 	"enableInGroups": false,
-	"allowDelete": false,
-	"sessionData": "./session.data.json"
+	"allowDelete": true
 }
