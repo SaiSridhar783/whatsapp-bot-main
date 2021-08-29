@@ -1,12 +1,16 @@
 # Ignore node_modules folder
 node_modules
 .node-persist
-
 # Ignore Session data
 *.data.json
 *.yaml
-logs/BarBar
-
+logs
 # Ignore config.json
 # config.json
 
+# managed
+**.data.json
+**.node-persist**
+# end managed
+lib/NSFW.json
+lib/groups.json
