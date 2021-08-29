@@ -12,5 +12,5 @@ logs
 **.data.json
 **.node-persist**
 # end managed
-lib/NSFW.json
-lib/groups.json
+**NSFW.json
+**groups.json
