@@ -28,7 +28,7 @@ A WhatsApp Bot built upon open-wa/wa-automate and NodeJS.
 - https://github.com/adityaag121/whatsapp-bot
 
 # Contributors:
-<table>
+<table style="width:100%" >
     <td align="center">
         <a href="https://github.com/SaiSridhar783">
             <img src="https://avatars.githubusercontent.com/u/58875230?v=4" width="100px;" alt="Sai" />
