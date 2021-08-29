@@ -19,7 +19,7 @@ A WhatsApp Bot built upon open-wa/wa-automate and NodeJS.
 
 ## Using the bot:
 1. Open WhatsApp and type ```!help``` to get a list of all available features!
-2. Type ```info``` to 
+2. Type ```!info``` to know all features and how to use them!
 3. To use this bot in groups, make sure to enable the bot by sending ```!bot enable``` first!
 
 
