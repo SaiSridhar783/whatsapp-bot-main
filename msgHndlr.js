@@ -513,7 +513,7 @@ module.exports = msgHandler = async (client, message) => {
                 break;
 
             case "!add":
-                const orang = args[1];
+                const orang = args;
                 if (!isGroupMsg) return client.reply(chatId, mess.error.Gp, id);
                 if (args.length === 1)
                     return client.reply(
@@ -524,10 +524,13 @@ module.exports = msgHandler = async (client, message) => {
                 if (!isGroupAdmins) return client.reply(chatId, mess.error.admin, id);
                 if (!isBotGroupAdmins)
                     return client.reply(chatId, "Sorry, I am not an admin.", id);
-                try {
-                    await client.addParticipant(chatId, `${orang}@c.us`);
-                } catch {
-                    client.reply(chatId, mess.error.Ad, id);
+                for (let i = 1; i < orang.length; i++) {
+                    try {
+                        await client.addParticipant(chatId, `${orang[i]}@c.us`);
+                    } catch {
+                        client.reply(chatId, `*${orang[i]}* - ${mess.error.Ad}`, id);
+                        break;
+                    }
                 }
                 break;
 
